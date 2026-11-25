@@ -4,7 +4,7 @@ Hugging Face Spaces (Docker/Gradio di CPU basic) sekarang berbayar, jadi app dij
 Kuota gratis akun pribadi: 120 core-jam/bulan (≈ 60 jam di mesin 2-core 8 GB) dan 15 GB storage.
 Link aktif selama codespace menyala; codespace berhenti sendiri bila lama tidak dipakai.
 
-Model sudah ada di Hugging Face Hub (repo private, tetap gratis):
+Model sudah ada di Hugging Face Hub (repo public, gratis, tanpa token):
 `FaisalRd/ruang-sentimen-sentiment` dan `FaisalRd/ruang-sentimen-emotion`.
 Konfigurasi ada di `.devcontainer/` (instal dependensi, unduh model, jalankan app di port 7860).
 
@@ -17,11 +17,7 @@ git push -u origin main
 ```
 `.gitignore` sudah mengecualikan `models/`, `models_old/`, `.venv/`, `baseline/`, `validasi/`, `skripsi/`, `logs/`, dan CSV.
 
-## 2. Simpan token Hugging Face sebagai secret Codespaces (sekali saja)
-1. huggingface.co → Settings → Access Tokens → buat token tipe **Read**.
-2. github.com → Settings → Codespaces → Secrets → **New secret**: nama `HF_TOKEN`, isi token tadi, pilih repo `ruang-sentimen`.
-
-## 3. Jalankan
+## 2. Jalankan
 1. Di halaman repo: **Code → Codespaces → Create codespace on main**.
 2. Pembuatan pertama ±5–10 menit (instal torch + unduh model ±1,8 GB). Setelah itu app jalan otomatis.
 3. Buka tab **Ports** → baris 7860 → klik kanan → **Port Visibility → Public**. Salin link
