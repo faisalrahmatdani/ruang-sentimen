@@ -1,0 +1,18 @@
+{
+  "name": "Ruang Sentimen",
+  "image": "mcr.microsoft.com/devcontainers/python:3.10",
+  "hostRequirements": { "cpus": 2, "memory": "8gb" },
+  "containerEnv": {
+    "MODEL_SENTIMENT": "FaisalRd/ruang-sentimen-sentiment",
+    "MODEL_EMOTION": "FaisalRd/ruang-sentimen-emotion"
+  },
+  "secrets": {
+    "HF_TOKEN": { "description": "Token Hugging Face (read) untuk mengunduh repo model private." }
+  },
+  "postCreateCommand": "pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu && pip install --no-cache-dir -r requirements.txt",
+  "postStartCommand": "bash .devcontainer/start.sh",
+  "forwardPorts": [7860],
+  "portsAttributes": {
+    "7860": { "label": "Ruang Sentimen", "onAutoForward": "notify" }
+  }
+}

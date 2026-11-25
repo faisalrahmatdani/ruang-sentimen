@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ruang Sentimen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="brand"><span class="mark">S<i></i></span><span class="brand-name">ruang<br>sentimen.</span></div>
+    <div class="eyebrow side-eyebrow">Workspace penelitian</div>
+    <nav>
+      <button class="nav active" data-view="analyze"><span class="ico">◈</span>Analisis sentimen<em>01</em></button>
+      <button class="nav" data-view="about"><span class="ico">▤</span>Tentang model<em>02</em></button>
+    </nav>
+    <div class="side-foot">
+      <div class="live"><i></i>Server demo publik</div>
+      <p>Diproses di server CPU.<br>Ulasan tidak disimpan.</p>
+      <hr>
+      <div class="eyebrow">IndoBERT / 2 model</div>
+      <p class="small">Sentimen: Play Store<br>Emosi: PRDECT-ID</p>
+    </div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div class="crumbs">Penelitian / <b id="crumb">Analisis sentimen</b></div>
+      <span class="pill"><i></i>IndoBERT</span>
+    </header>
+
+    <!-- ===== Analisis ===== -->
+    <section id="view-analyze" class="view">
+      <div class="hero">
+        <div>
+          <div class="eyebrow">Dari ulasan menjadi pemahaman</div>
+          <h1>Baca sentimennya.</h1>
+          <p class="lede">Kenali opini positif dan negatif, atau emosi, dalam ulasan berbahasa Indonesia.</p>
+        </div>
+        <div class="hero-meta"><div class="eyebrow">Model</div><div class="hero-model">IndoBERT base + large <span>↗</span></div></div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="text">Analisis teks <em>01</em></button>
+        <button class="tab" data-tab="batch">Unggah Excel <em>02</em></button>
+      </div>
+
+      <div class="card kind-card">
+        <div class="field-label">Jenis hasil</div>
+        <div class="seg" id="kind">
+          <button data-kind="sentiment" class="on">Sentimen positif / negatif</button>
+          <button data-kind="emotion">Deteksi emosi</button>
+        </div>
+        <label class="check" id="netral-row">
+          <input type="checkbox" id="netral"> Tampilkan kategori netral
+          <span class="range" id="margin-wrap">zona ragu ±<b id="margin-val">15</b>%
+            <input type="range" id="margin" min="5" max="45" step="5" value="15"></span>
+        </label>
+      </div>
+
+      <!-- teks -->
+      <div class="panel" id="panel-text">
+        <div class="grid2">
+          <div class="card">
+            <div class="card-head"><h3>Mulai dari sebuah ulasan</h3><span class="eyebrow">Input teks</span></div>
+            <label class="field-label" for="text">Teks ulasan</label>
+            <textarea id="text" maxlength="5000" placeholder="Contoh: Aplikasinya sangat membantu, fiturnya lengkap dan mudah dipakai."></textarea>
+            <div class="meta-row"><span>Bahasa Indonesia · maks. 5.000 karakter</span><span id="count">0 / 5.000</span></div>
+            <div class="samples"><span>Coba contoh:</span>
+              <button class="chip" data-s="Barangnya bagus banget, pengiriman cepat dan penjualnya ramah. Pasti beli lagi!">Puas ↗</button>
+              <button class="chip" data-s="Kecewa parah, barang datang rusak dan penjual tidak mau tanggung jawab.">Kecewa ↗</button>
+              <button class="chip" data-s="Aplikasinya sering error dan iklannya mengganggu sekali.">Aplikasi ↗</button>
+            </div>
+            <div class="actions"><button class="btn ghost" id="clear">Bersihkan</button><button class="btn primary" id="run-text">Analisis ulasan <span>↗</span></button></div>
+            <div class="status" id="text-status"></div>
+          </div>
+          <div class="card result" id="text-result">
+            <div class="card-head"><h3>Hasil analisis</h3><span class="eyebrow" id="res-state">Menunggu input</span></div>
+            <div class="empty" id="res-empty">
+              <div class="orbs"><i>+</i><i>–</i><i>○</i></div>
+              <h2>Setiap opini punya arah.</h2>
+              <p>Tulis ulasan dan jalankan analisis.<br>Hasil akan tampil di sini.</p>
+            </div>
+            <div id="res-body" hidden></div>
+            <div class="card-foot" id="res-foot"><i></i>Diproses oleh IndoBERT</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- batch -->
+      <div class="panel" id="panel-batch" hidden>
+        <div class="card">
+          <div class="card-head"><h3>Analisis banyak ulasan sekaligus</h3><span class="eyebrow">Batch analysis</span></div>
+          <p class="muted">Unduh template, isi kolom <b>ulasan</b> (maks. <span id="max-rows">500</span> baris), lalu unggah kembali.</p>
+          <div class="drop" id="drop" tabindex="0">
+            <input type="file" id="file" accept=".xlsx,.csv" hidden>
+            <div class="arrow">↑</div>
+            <div class="drop-title" id="drop-title">Tarik file ke sini atau klik untuk memilih</div>
+            <div class="drop-sub" id="drop-sub">.xlsx atau .csv · maksimal 5 MB</div>
+          </div>
+          <div class="actions between">
+            <a class="btn ghost" href="/api/template" download>Unduh template ↓</a>
+            <button class="btn primary" id="run-batch" disabled>Analisis Excel <span>↗</span></button>
+          </div>
+          <div class="progress" id="progress" hidden><div class="bar"><i id="bar"></i></div><span id="prog-text">Memuat model…</span></div>
+          <div class="status err" id="batch-status"></div>
+        </div>
+
+        <div id="batch-out" hidden>
+          <div class="stats">
+            <div class="card stat"><div class="eyebrow">Jumlah ulasan</div><div class="num" id="st-total">–</div></div>
+            <div class="card stat"><div class="eyebrow">Hasil dominan</div><div class="num" id="st-dom">–</div><div class="sub" id="st-dom-sub"></div></div>
+            <div class="card stat"><div class="eyebrow">Rata-rata keyakinan</div><div class="num" id="st-conf">–</div><div class="sub">skor tertinggi per ulasan</div></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Ringkasan &amp; rata-rata</h3>
+              <div class="dl"><a class="btn ghost sm" id="dl-pdf" href="#">Unduh PDF ↓</a><a class="btn ghost sm" id="dl-xlsx" href="#">Unduh Excel ↓</a></div></div>
+            <div class="charts">
+              <div><div class="field-label">Distribusi hasil</div><div id="donut"></div></div>
+              <div><div class="field-label">Rata-rata skor per kelas</div><div id="avgbars"></div>
+                <table class="mini" id="sumtable"></table></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h3>Ulasan &amp; hasil</h3><span class="eyebrow" id="row-count"></span></div>
+            <div class="filter"><label for="filter">Tampilkan</label><select id="filter"></select></div>
+            <div class="table-wrap"><table class="tbl" id="tbl"></table></div>
+            <div class="meta-row"><span id="tbl-note"></span><button class="btn ghost sm" id="more" hidden>Tampilkan lebih banyak</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout" id="callout"><span>↳</span><p id="callout-text"></p></div>
+    </section>
+
+    <!-- ===== Tentang model ===== -->
+    <section id="view-about" class="view" hidden>
+      <div class="hero"><div>
+        <div class="eyebrow">Model aktif</div><h1>Tentang model.</h1>
+        <p class="lede">Dua model IndoBERT yang di-fine-tune untuk tugas yang berbeda. Angka di bawah diukur pada data uji yang tidak dipakai saat pelatihan.</p></div></div>
+      <div id="about-body"></div>
+    </section>
+    <footer class="foot">Ruang Sentimen · hasil model adalah perkiraan statistik, bukan keputusan akhir.</footer>
+  </main>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>

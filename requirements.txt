@@ -1,0 +1,10 @@
+transformers>=4.40
+huggingface_hub
+pandas
+scikit-learn
+fastapi
+uvicorn
+python-multipart
+openpyxl
+reportlab<4.3
+matplotlib

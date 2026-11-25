@@ -1,0 +1,9 @@
+.venv
+models
+models_old
+logs
+__pycache__
+*.csv
+baseline
+validasi
+skripsi

@@ -1,0 +1,12 @@
+# Hanya kode app yang masuk repo; model ada di Hugging Face Hub, dataset bersifat private.
+.venv/
+models/
+models_old/
+logs/
+baseline/
+validasi/
+skripsi/
+__pycache__/
+*.csv
+.DS_Store
+.env
