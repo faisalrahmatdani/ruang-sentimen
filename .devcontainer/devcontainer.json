@@ -7,7 +7,7 @@
     "MODEL_SENTIMENT": "FaisalRd/ruang-sentimen-sentiment",
     "MODEL_EMOTION": "FaisalRd/ruang-sentimen-emotion"
   },
-  "postCreateCommand": "pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu && pip install --no-cache-dir -r requirements.txt",
+  "postCreateCommand": "pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple && pip install --no-cache-dir -r requirements.txt",
   "postStartCommand": "bash .devcontainer/start.sh",
   "forwardPorts": [7860],
   "portsAttributes": {
